@@ -13,9 +13,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             Image(.background)
-                .resizable()
-                .ignoresSafeArea()
-                .scaledToFill()
+                .backgroundModifier()
             
             HStack {
                 Button {
