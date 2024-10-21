@@ -11,10 +11,11 @@ import MapKit
 struct MapView: View {
     let searchKey: String
     @State var targetCoordinate = CLLocationCoordinate2D()
+    @State var cameraPosition: MapCameraPosition = .automatic
     
     var body: some View {
-        Map() {
-            
+        Map(position: $cameraPosition) {
+            Marker(searchKey, coordinate: targetCoordinate)
         }
         .onChange(of: searchKey, initial: true) { oldValue, newValue in
             print("検索キーワード：\(newValue)")
@@ -30,6 +31,12 @@ struct MapView: View {
                     targetCoordinate = mapItem.placemark.coordinate
                     
                     print("緯度経度: \(targetCoordinate)")
+                    
+                    cameraPosition = .region(MKCoordinateRegion(
+                        center: targetCoordinate,
+                        latitudinalMeters: 500.0,
+                        longitudinalMeters: 500.0
+                    ))
                 }
             }
         }
